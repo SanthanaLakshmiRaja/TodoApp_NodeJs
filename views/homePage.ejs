@@ -1,9 +1,9 @@
 <!-- HTMl section for main home page -->
-<link rel="stylesheet" href="/css/home.css">  
+<link rel="stylesheet" href="/css/home.css">
         <div class="form_class">
             <form action="/create_todo" method="POST">
             <div class="desc_Class">
-                <input type="textarea" required name="desc" placeholder="what do you need to do"> 
+                <input type="textarea" required name="desc" placeholder="what do you need to do">
             </div>
             <div class="select_and_input">
                 <select name="category" required>
@@ -17,9 +17,9 @@
             </div>
                 <button class="buttonDesign colorGrey" id="submitButton" type="submit"><i class="fa fa-plus-square" > </i> Add Task</button>
                 <button class="buttonDesign colorRed" id="deleteButton" type="submit"><i class="fa fa-trash-o"></i> Delete Task</button>
-      
+
             </form>
-                 
+
         </div>
 
 <!-- for displaying TODO lists -->
@@ -37,7 +37,7 @@
                         <div class="editClass"><a href="/editdata/?id=<%=i._id %>">Edit</a></div>
                 </div>
                 <% j++; } %>
- 
+
         </div>
 
 
@@ -45,5 +45,3 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="/js/script.js"></script>
-    
-   

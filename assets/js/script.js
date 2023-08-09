@@ -1,9 +1,9 @@
-let designcl = ['work','Personal','Claeaning','Otheres'] //creating class for implementing design to different category 
+let designcl = ['work','Personal','Claeaning','Otheres'] //creating class for implementing design to different category
 $(document).ready(function(){
 
-    let categorys = document.getElementsByClassName('catesec'); // getting all the class name category 
+    let categorys = document.getElementsByClassName('catesec'); // getting all the class name category
         for(let i=0;i<categorys.length;i++){ // looping in the  categorys to find the which categry class belongs and implement according sesign check home.css to get the color of eact section
-            if(categorys[i].innerHTML.trim()=='Work'){ 
+            if(categorys[i].innerHTML.trim()=='Work'){
                categorys[i].classList.add(designcl[0])
                categorys[i].classList.add('commonClass')
             }
@@ -21,14 +21,14 @@ $(document).ready(function(){
 });
 
 // this in responsible for making  making cross line when the idem is  checked for deleting
-function checkedOrNot(){ 
-    let cb = document.querySelectorAll('.delechack'); // getting all the check-box class 
+function checkedOrNot(){
+    let cb = document.querySelectorAll('.delechack'); // getting all the check-box class
     let descdisp = document.querySelectorAll('.dispdsc'); // gettong all the class where descripting of TODO is defined
     let ddsp = document.querySelectorAll('.dueDate'); // getting all the class for dueDate
     for(let i=0;i<descdisp.length;i++){
         let dueDate = ddsp[i].innerHTML;
         // checking if checkbox is checked  if checked a line will pass through the text(-) else if it is unchecked no line will pass through date and description
-            if(cb[i].checked == true){ 
+            if(cb[i].checked == true){
             document.getElementById(cb[i].getAttribute('uid')).style.textDecoration = 'line-through'
             document.getElementById(cb[i].getAttribute('uid')+dueDate).style.textDecoration  = 'line-through'
             }
@@ -36,9 +36,9 @@ function checkedOrNot(){
             document.getElementById(cb[i].getAttribute('uid')).style.textDecoration = 'none'
             document.getElementById(cb[i].getAttribute('uid')+dueDate).style.textDecoration  = 'none'
         }
-       
-    } 
-   
+
+    }
+
 }
 
 // this addEventListener  come into action when we clicked on delete button after we checked which list of items need to be deleted
@@ -51,12 +51,12 @@ document.getElementById('deleteButton').addEventListener('click',function(){
         console.log(gg)
         arrcheck.push(gg);
     }
-    if(arrcheck.length===0){ // checking if array is null the 
+    if(arrcheck.length===0){ // checking if array is null the
         console.log('no item is checked')
         swal("No item is checked!!", "please select item to remove!", "error"); // using show alert to show if there is no items in the array
         return;
     }
-    //here we are making delete request with the help of Ajax request 
+    //here we are making delete request with the help of Ajax request
     $.ajax({
         type: 'post',
         url: '/delete_todo/?id='+arrcheck,
@@ -65,9 +65,9 @@ document.getElementById('deleteButton').addEventListener('click',function(){
             .then(redir => {
                 window.location = '/';
             })
-           
+
         },
-        error: function(err){ 
+        error: function(err){
             console.log(err);
         }
 

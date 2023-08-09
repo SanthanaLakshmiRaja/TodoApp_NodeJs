@@ -11,7 +11,7 @@ const todoSchema = new mongoose.Schema({
     dueDate:{
         type:String,
         required:true
-    }   
+    }
 })
 
 const TodoLists = mongoose.model('TodoLists', todoSchema);

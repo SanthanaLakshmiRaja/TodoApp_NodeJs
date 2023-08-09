@@ -4,18 +4,17 @@ const TodoLists = require('../models/todo_list')
 // function for redirecting to main home page
 module.exports.home = function(req,res){
     // fetching using mongoose
-    TodoLists.find({},function(err,todo){
-        if(err){
-            console.log('error in fetching data');
-            return
-        }
-        
-        return res.render('homePage',{
-            title:"Home",
-            todoList:todo
-           
-        })
+    TodoLists.find({})
+    .then((todo) => {
+      return res.render('homePage',{
+          title:"Home",
+          todoList:todo
+      })
     })
+    .catch((err) => {
+      console.log(`error in running the ${err}`);
+    });
+
 }
 // function for new Data
 function DateValeu(dueDate){
@@ -24,7 +23,7 @@ function DateValeu(dueDate){
 
     newdate = '';
     let monapp = '';
-    // checking months 
+    // checking months
     if(dueDate[1] == '01'){
         monapp=months[0];
     }
@@ -61,52 +60,62 @@ function DateValeu(dueDate){
 module.exports.createTodo = function(req,res){
     dueDate =req.body.dateValue.split('-'); // splitting date and taking montha value
    let newdate='';
-    newdate= DateValeu(dueDate);     
+    newdate= DateValeu(dueDate);
     TodoLists.create({ // crating new todo and storing into DB
         desc:req.body.desc,
         category:req.body.category,
         dueDate: newdate
-    },function(err,newArr){
-        if(err){
-            console.log('Oops error occoured');
-            return;
-        }
+    })
+    .then(() => {
         return res.redirect('/')
     })
+    .catch((err) => {
+      console.log('Oops error occoured');
+      return;
+    });
 }
 // function for deleting todo list
-module.exports.deleteTodo = function(req,res){ 
+module.exports.deleteTodo = function(req,res){
     sp = req.query.id; // getting the id from ui
-    newsp = sp.split(','); 
+    newsp = sp.split(',');
     for(let i=0;i<newsp.length;i++){ // looping over newsp  to delete all the checked value
-        TodoLists.findByIdAndDelete(newsp[i],function(err){
-            if(err){
-                console.log('err')
-                return;
-            }
+        TodoLists.findByIdAndDelete(newsp[i])
+        .then(() => {
+          console.log('Deleted successfully');
         })
+        .catch((err) => {
+                console.log('err');
+                return;
+        });
     }
 return res.redirect('/');
 }
 // function for fetching data for edit page
 module.exports.EditPage = function(req,res){ // here we are fetching the data whic need to be edited
     console.log('aaa',req.query)
-    TodoLists.findById(req.query.id,function(err,todoLists){
-        if(err){ console.log('hi man!! it an error'); return}
-        return res.render('editPage',{
-        title:'Edit Page',
-        todolist:todoLists
-        })
+    TodoLists.findById(req.query.id)
+    .then((todoLists) => {
+      return res.render('editPage',{
+      title:'Edit Page',
+      todolist:todoLists
+    });
     })
+    .catch((err) => {
+      console.log(`Error in finding the data ${err}`);
+    });
+
 }
 // function for updatind tada after the todo is being edited
 module.exports.editDetails = function(req,res){
     dueDate =req.body.dueDate.split('-'); // splitting date and taking montha value
     let newdate='';
-    newdate= DateValeu(dueDate);     
-     TodoLists.updateOne({_id:req.query.id},{$set:{desc:req.body.desc,category:req.body.category,dueDate:newdate}} ,function(err,todoData){
-        if(err){console.log('erroe while updating'); return}
-        return res.redirect('/')
-    })
+    newdate= DateValeu(dueDate);
+     TodoLists.updateOne({_id:req.query.id},{$set:{desc:req.body.desc,category:req.body.category,dueDate:newdate}})
+      .then(() => {
+          return res.redirect('/')
+      })
+      .catch((err) => {
+        console.log('erroe while updating');
+         return;
+      });
 }
-
